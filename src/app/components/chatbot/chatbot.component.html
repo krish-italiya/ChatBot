@@ -1,0 +1,63 @@
+<div>
+  @if(authService.isAuthenticated()){
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+  />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+  />
+  <!-- 
+  <div class="chat-container">
+    <main class="chat-history" *ngFor="let item of msgHistory">
+      <div
+        class="{{ item.from === 'user' ? 'user-message' : 'robot-message' }}"
+      >
+        <span class="material-symbols-outlined">{{
+          item.from === "user" ? "person" : "robot"
+        }}</span>
+        <span>{{ item.message }}</span>
+      </div>
+      <ng-container *ngIf="isLoading">
+        <app-loader></app-loader>
+      </ng-container>
+    </main>
+    <footer class="chat-input">
+      <input
+        type="text"
+        placeholder="Ask Question to your bot..."
+        [(ngModel)]="prompt"
+      />
+      <button (click)="sendData()">Send</button>
+    </footer>
+  </div> -->
+
+  <div class="chat-container">
+    <div class="message-container" *ngFor="let item of msgHistory">
+      <div
+        class="{{
+          item.from === 'user'
+            ? 'message receiver-message'
+            : 'message sender-message'
+        }}"
+      >
+        <span class="material-symbols-outlined">{{
+          item.from === "user" ? "person" : "robot"
+        }}</span
+        >{{ item.message }}
+      </div>
+    </div>
+
+    <div class="user-input">
+      <input
+        type="text"
+        placeholder="Ask Question to your bot..."
+        [(ngModel)]="prompt"
+      />
+      <button (click)="sendData()">Send</button>
+    </div>
+  </div>
+
+  }
+</div>

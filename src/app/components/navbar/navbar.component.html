@@ -1,0 +1,15 @@
+<div>
+  <nav>
+    <div>
+      <h2><a routerLink="/">Chatbot</a></h2>
+    </div>
+    <div class="links">
+      @if(authService.isAuthenticated()){
+      <h2 (click)="authService.logout()"><a>Logout</a></h2>
+      }@else{
+      <h2><a routerLink="/login" routerLinkActive="active">Login</a></h2>
+      <h2><a routerLink="/signup" routerLinkActive="active">Signup</a></h2>
+      }
+    </div>
+  </nav>
+</div>
