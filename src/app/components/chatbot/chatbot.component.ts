@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { GeminiService } from '../../services/gemini.service';
-import { BehaviorSubject } from 'rxjs';
+import { QueryResponseService } from '../../services/query-response.service';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from '../loader/loader.component';
+
+
 
 @Component({
   selector: 'app-chatbot',
@@ -16,10 +17,10 @@ import { LoaderComponent } from '../loader/loader.component';
 export class ChatbotComponent {
   prompt: string = '';
   msgHistory: any = [];
-  geminiService: GeminiService = inject(GeminiService);
+  queryResponse: QueryResponseService = inject(QueryResponseService)
   isLoading: boolean = false;
   constructor(public authService: AuthService) {
-    this.geminiService.getChatHistory().subscribe((res) => {
+    this.queryResponse.getChatHistory().subscribe((res) => {
       if (res) {
         this.msgHistory.push(res);
       }
@@ -28,7 +29,7 @@ export class ChatbotComponent {
   async sendData() {
     if (this.prompt) {
       this.isLoading = true;
-      this.geminiService.generateText(this.prompt);
+      this.queryResponse.generateText(this.prompt);
       this.prompt = '';
       this.isLoading = false;
     }
