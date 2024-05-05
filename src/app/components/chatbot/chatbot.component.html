@@ -20,16 +20,15 @@
       >
         <span class="material-symbols-outlined">{{
           item.from === "user" ? "person" : ""
-        }}</span
-        >
-        @if(item.from==="bot" && item.img_data!==""){
-          <img [src]="item.img_data" alt="">
-        }
-        @if(item.from==="user"){
-          <span [innerHtml]="item.message"></span>
-        }
-        
-        @if(item.from==='bot' && item.img_data===''){
+        }}</span>
+        @if(item.from==="bot"){
+          @if(item.img_data !== ""){
+            <img [src]="item.img_data" alt="" />
+          } @else {
+            <span [innerHtml]="item.message">
+            </span>
+          }
+        }@else{
           <span [innerHtml]="item.message"></span>
         }
       </div>

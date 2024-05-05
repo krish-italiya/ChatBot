@@ -33,14 +33,23 @@ export class QueryResponseService {
     this.getData(prompt).subscribe((response) => {
       console.log(response.plot_detail);
       const md = markdownIt();
+      if(response.plot_detail){
+        this.chatHistory.next({
+          from: 'bot',
+          message: md.render(response.response),
+          img_data: this.sanitizer.bypassSecurityTrustResourceUrl(
+            `data:image/png;base64,${response.plot_detail}`
+          ),
+        });
+      }
+      else{
+        this.chatHistory.next({
+          from: 'bot',
+          message: md.render(response.response),
+          img_data: ""
+        });
 
-      this.chatHistory.next({
-        from: 'bot',
-        message: md.render(response.response),
-        img_data: this.sanitizer.bypassSecurityTrustResourceUrl(
-          `data:image/png;base64,${response.plot_detail}`
-        ),
-      });
+      }
     });
     console.log('After response');
   }
