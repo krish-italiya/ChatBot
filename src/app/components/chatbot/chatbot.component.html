@@ -22,8 +22,16 @@
           item.from === "user" ? "person" : ""
         }}</span
         >
-        <!-- {{ item.message }} -->
-        <span [innerHtml]="item.message"></span>
+        @if(item.from==="bot" && item.img_data!==""){
+          <img [src]="item.img_data" alt="">
+        }
+        @if(item.from==="user"){
+          <span [innerHtml]="item.message"></span>
+        }
+        
+        @if(item.from==='bot' && item.img_data===''){
+          <span [innerHtml]="item.message"></span>
+        }
       </div>
     </div>
 

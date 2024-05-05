@@ -4,22 +4,24 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import markdownIt from 'markdown-it';
 
-
 export interface MyApiResponse {
   response: string;
+  plot_detail: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QueryResponseService {
   public http = inject(HttpClient);
-  public sanitizer = inject(DomSanitizer)
+  public sanitizer = inject(DomSanitizer);
   private chatHistory: BehaviorSubject<any> = new BehaviorSubject(null);
 
   apiUrl = 'http://127.0.0.1:8080/';
   getData(prompt: string): Observable<MyApiResponse> {
-    return this.http.post<MyApiResponse>(this.apiUrl, { query: prompt });
+    console.log(prompt);
+    const res = this.http.post<MyApiResponse>(this.apiUrl, { query: prompt });
+    return res;
   }
 
   async generateText(prompt: string) {
@@ -27,19 +29,23 @@ export class QueryResponseService {
       from: 'user',
       message: prompt,
     });
+    console.log('Before response');
     this.getData(prompt).subscribe((response) => {
-      console.log(response);
+      console.log(response.plot_detail);
       const md = markdownIt();
 
       this.chatHistory.next({
         from: 'bot',
         message: md.render(response.response),
+        img_data: this.sanitizer.bypassSecurityTrustResourceUrl(
+          `data:image/png;base64,${response.plot_detail}`
+        ),
       });
     });
+    console.log('After response');
   }
 
   public getChatHistory(): Observable<any> {
     return this.chatHistory.asObservable();
   }
-
 }
